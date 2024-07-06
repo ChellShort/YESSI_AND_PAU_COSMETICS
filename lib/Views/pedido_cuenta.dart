@@ -52,7 +52,14 @@ class _PedidoCuentaState extends State<pedidoCuenta> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarCustom(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'YESSI & PAU',
+          style: TextStyle(fontSize: 30),
+        ),
+        backgroundColor: const Color.fromARGB(255, 244, 152, 157),
+      ),
       body: ListView(
         children: [
           SizedBox(height: 20),
