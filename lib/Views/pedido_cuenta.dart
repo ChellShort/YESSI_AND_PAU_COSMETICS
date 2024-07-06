@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yessi_pau/Views/address.dart';
+import 'package:yessi_pau/Views/login.dart';
+import 'package:yessi_pau/widgets/appbar.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,26 +30,29 @@ class _PedidoCuentaState extends State<pedidoCuenta> {
   static List<Widget> _widgetOptions = <Widget>[];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 0) {
+      
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const address(),
+        ),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => loginCustom(),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("YESSI & PAU"),
-        backgroundColor: Colors.pink[200],
-        actions: [
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              // Acción para el botón de menú
-            },
-          ),
-        ],
-      ),
+      appBar: AppbarCustom(),
       body: ListView(
         children: [
           SizedBox(height: 20),
