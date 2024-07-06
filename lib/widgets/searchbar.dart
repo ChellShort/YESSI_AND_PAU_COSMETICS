@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
+class SearchBarCustom extends StatefulWidget {
+  const SearchBarCustom({super.key});
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<SearchBarCustom> createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends State<SearchBarCustom> {
   @override
   Widget build(BuildContext context) {
-    return const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 340,
-                height: 50,
-                child: TextField(
-                  
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search),
-                      hintText: 'Buscar', border: OutlineInputBorder()),
-                ),
-              ),
-            ),
-          ],
-        );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: SearchBar(
+            hintText: 'Buscar',
+            shape:  WidgetStatePropertyAll(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            )
+          )
+        ),
+      ),
+    ));
   }
 }

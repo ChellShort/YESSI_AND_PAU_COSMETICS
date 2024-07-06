@@ -8,6 +8,7 @@ import 'package:yessi_pau/Views/start_custom.dart';
 import 'package:yessi_pau/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
+
   const HomePage({super.key});
 
   @override
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 0;
+  int index=0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +30,24 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'YESSI & PAU',
-            style: TextStyle(fontSize: 30),
-          ),
-          backgroundColor: const Color.fromARGB(255, 244, 152, 157),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'YESSI & PAU',
+          style: TextStyle(fontSize: 30),
         ),
-        drawer: DrawerCustom(cIndex: (i) {
-          setState(() {
-            index =
-                i; //Se asigna el valor de n elemento del drawer, para asi redibujar el body
-          });
-        }),
-        body: ListView(
-          children: <Widget>[
-            myBody[index],
-          ],
-        ));
+        backgroundColor: const Color.fromARGB(255, 244, 152, 157),
+      ),
+      drawer: DrawerCustom(cIndex: (i) {
+        setState(() {
+          index = i; // Se asigna el valor del elemento del drawer para redibujar el body
+        });
+      }),
+      body: ListView(
+        children: <Widget>[
+          myBody[index],
+        ],
+      ),
+    );
   }
 }
