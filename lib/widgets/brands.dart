@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/details.dart';
 import 'package:yessi_pau/widgets/dropdown_button.dart';
 import 'package:yessi_pau/widgets/searchbar.dart';
-import 'package:yessi_pau/views/home.dart';
 
-class Makeup extends StatefulWidget {
-  const Makeup({super.key});
+class Brands extends StatefulWidget {
+  const Brands({super.key});
 
   @override
-  State<Makeup> createState() => _BrandsState();
+  State<Brands> createState() => _BrandsState();
 }
 
-class _BrandsState extends State<Makeup> {
+class _BrandsState extends State<Brands> {
   int currentelements = 0;
   RangeValues _currentRangeValues = const RangeValues(0.00, 4000.00);
   List<String> brandList = <String>[
@@ -36,7 +35,7 @@ class _BrandsState extends State<Makeup> {
         const Padding(
           padding: EdgeInsets.all(10.0),
           child: Text(
-            'Maquillaje',
+            'Marcas',
             style: TextStyle(
               fontSize: 30,
             ),
@@ -143,7 +142,7 @@ class _BrandsState extends State<Makeup> {
                 return GestureDetector(
                   child: Container(
                       color: Colors.white,
-                      child: Image.asset('assets/i$index.png')),
+                      child: Image.asset('assets/i${index.toString()}.png')),
                   onTap: () {
                     index = index;
                     String image ='i${index.toString()}';

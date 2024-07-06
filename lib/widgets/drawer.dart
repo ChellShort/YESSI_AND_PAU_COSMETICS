@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:yessi_pau/cart%20copy.dart';
 import 'drawer_header.dart';
 import 'package:yessi_pau/utils/drawer_elements.dart';
 
@@ -49,6 +50,17 @@ class DrawerCustom extends StatelessWidget {
             ],
             
           ),
+          const SizedBox(height: 100),
+          BottomAppBar(
+            child: IconButton(onPressed: (){
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => cartScreen(),
+                        ),
+                      );
+              }, icon: const Icon(Icons.shopping_cart)),
+          )
         ],
       ),
     );

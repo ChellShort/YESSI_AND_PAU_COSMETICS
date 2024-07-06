@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:yessi_pau/Views/brands.dart';
-import 'package:yessi_pau/Views/corporal_care.dart';
-import 'package:yessi_pau/Views/hair.dart';
 import 'package:yessi_pau/Views/makeup.dart';
-import 'package:yessi_pau/Views/skincare.dart';
 import 'package:yessi_pau/Views/start_custom.dart';
+import 'package:yessi_pau/widgets/brands.dart';
+import 'package:yessi_pau/widgets/corporal_care.dart';
+import 'package:yessi_pau/widgets/hair.dart';
+import 'package:yessi_pau/widgets/skincare.dart';
+import 'package:yessi_pau/widgets/cart.dart';
 import 'package:yessi_pau/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,13 +21,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> myBody = const [
-      StartCustom(),
-      Brands(),
-      Makeup(),
-      Skincare(),
-      Hair(),
-      CorporalCare()
+    List<Widget> myBody = [
+      const StartCustom(),
+      const Brands(),
+      const Makeup(),
+      const Skincare(),
+      const Hair(),
+      const CorporalCare(),
+      cartScreen()
     ];
 
     return Scaffold(

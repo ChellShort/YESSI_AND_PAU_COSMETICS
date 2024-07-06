@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yessi_pau/login.dart';
-import 'package:yessi_pau/cart.dart';
+import 'package:yessi_pau/Views/login.dart';
 
 void main() {
   runApp(const MyApp());

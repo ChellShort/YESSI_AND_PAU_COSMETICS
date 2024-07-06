@@ -5,8 +5,6 @@ import 'package:yessi_pau/Views/register.dart';
 class loginCustom extends StatelessWidget {
   loginCustom({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,20 +23,16 @@ class loginCustom extends StatelessWidget {
                   width: 300,
                 ),
                 const Padding(
-                  padding: 
-                  EdgeInsets.only(top: 8.0,left: 15.0,right: 15.0),
+                  padding: EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
                   child: Column(
                     children: [
                       Text('CORREO'),
                       TextField(
-                        keyboardType: 
-                        TextInputType.emailAddress,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: 
-                          Color.fromARGB(255, 229, 210, 232),
-                          prefixIcon: Icon(Icons.email, 
-                          color: Colors.blue),
+                          fillColor: Color.fromARGB(255, 229, 210, 232),
+                          prefixIcon: Icon(Icons.email, color: Colors.blue),
                           border: OutlineInputBorder(),
                           labelText: 'Ingrese su correo',
                         ),
@@ -47,12 +41,12 @@ class loginCustom extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(top: 8.0,left: 15.0,right: 15.0),
+                  padding: EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
                   child: const Column(
                     children: [
                       Text('CONTRASEÑA'),
                       TextField(
-                        obscureText: true,  // This will obscure the text input
+                        obscureText: true, // This will obscure the text input
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Color.fromARGB(255, 229, 210, 232),
@@ -62,7 +56,6 @@ class loginCustom extends StatelessWidget {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Ingrese su contraseña',
-                          
                         ),
                       ),
                     ],
@@ -73,11 +66,11 @@ class loginCustom extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomePage(),
-                            ),
-                          );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomePage(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
@@ -90,12 +83,9 @@ class loginCustom extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Login',
-                            style: TextStyle(color: 
-                            Colors.white, fontSize: 23),
-                            
+                            style: TextStyle(color: Colors.white, fontSize: 23),
                           ),
                         ))),
-                    
                   ),
                 ),
                 Padding(
@@ -108,11 +98,11 @@ class loginCustom extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Register(),
-                                ),
-                              );
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Register(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
@@ -125,16 +115,14 @@ class loginCustom extends StatelessWidget {
                               padding: EdgeInsets.all(5.0),
                               child: Text(
                                 'Register',
-                                style: TextStyle(color: Colors.white, fontSize: 20),
-                                
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
                             ))),
-                        
                       ),
                     ],
                   ),
                 ),
-                
               ],
             ),
           ),

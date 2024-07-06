@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'counter.dart';
+import '../utils/counter.dart';
 
 class cartScreen extends StatelessWidget {
   // Lista de productos con sus detalles (nombre, marca, precio)
@@ -20,11 +20,7 @@ class cartScreen extends StatelessWidget {
     // Calcula la suma de los precios parciales
     double totalPrice = products.fold(0, (sum, item) => sum + item['price']);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Carrito'),
-      ),
-      body: Container(
+    return Container(
         color: Colors.white, // Set the background color to white
         child: Column(
           children: [
@@ -149,7 +145,6 @@ class cartScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
