@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:yessi_pau/cart%20copy.dart';
+import 'package:yessi_pau/widgets/cart.dart';
 import 'drawer_header.dart';
 import 'package:yessi_pau/utils/drawer_elements.dart';
 

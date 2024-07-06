@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:yessi_pau/Views/makeup.dart';
-import 'package:yessi_pau/Views/start_custom.dart';
 import 'package:yessi_pau/widgets/brands.dart';
 import 'package:yessi_pau/widgets/corporal_care.dart';
 import 'package:yessi_pau/widgets/hair.dart';
+import 'package:yessi_pau/widgets/makeup.dart';
 import 'package:yessi_pau/widgets/skincare.dart';
 import 'package:yessi_pau/widgets/cart.dart';
 import 'package:yessi_pau/widgets/drawer.dart';
+import 'package:yessi_pau/widgets/start_custom.dart';
 
 class HomePage extends StatefulWidget {
 
