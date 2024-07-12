@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/home.dart';
 import 'package:yessi_pau/Views/register.dart';
+import 'package:yessi_pau/database_helper.dart';
 
 class loginCustom extends StatefulWidget {
   loginCustom({super.key});
@@ -11,6 +12,35 @@ class loginCustom extends StatefulWidget {
 
 class _loginCustomState extends State<loginCustom> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final dbHelper = DatabaseHelper();
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      String correo = _emailController.text;
+      String contrasena = _passwordController.text;
+
+      final cuenta = await dbHelper.getCuentaByEmailAndPassword(correo, contrasena);
+
+      if (cuenta != null) {
+        String username = cuenta['username'] ?? 'Usuario'; // Manejo de null
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(username: username),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Correo o contraseña incorrectos'),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,20 +68,18 @@ class _loginCustomState extends State<loginCustom> {
                           children: [
                             const Text('CORREO'),
                             TextFormField(
+                              controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 229, 210, 232),
-                                prefixIcon:
-                                    Icon(Icons.email, color: Colors.blue),
+                                prefixIcon: Icon(Icons.email, color: Colors.blue),
                                 border: OutlineInputBorder(),
                                 labelText: 'Ingrese su correo',
                               ),
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    !value.contains('@')) {
-                                  return 'Please enter an email';
+                                if (value == null || value.isEmpty || !value.contains('@')) {
+                                  return 'Por favor, ingrese un correo válido';
                                 }
                                 return null;
                               },
@@ -65,23 +93,20 @@ class _loginCustomState extends State<loginCustom> {
                           children: [
                             const Text('CONTRASEÑA'),
                             TextFormField(
-                              obscureText:
-                                  true, // This will obscure the text input
+                              controller: _passwordController,
+                              obscureText: true,
                               decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 229, 210, 232),
-                                prefixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.blue,
-                                ),
+                                prefixIcon: Icon(Icons.lock, color: Colors.blue),
                                 border: OutlineInputBorder(),
                                 labelText: 'Ingrese su contraseña',
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
+                                  return 'Por favor, ingrese su contraseña';
                                 } else if (value.length < 8) {
-                                  return 'Password must be at least 8 characters long';
+                                  return 'La contraseña debe tener al menos 8 caracteres';
                                 }
                                 return null;
                               },
@@ -92,31 +117,23 @@ class _loginCustomState extends State<loginCustom> {
                       Padding(
                         padding: const EdgeInsets.all(30.0),
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            }
-                          },
+                          onPressed: _login,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.orange,
                           ),
                           child: const SizedBox(
-                              height: 60,
-                              width: 250,
-                              child: Center(
-                                  child: Padding(
+                            height: 60,
+                            width: 250,
+                            child: Center(
+                              child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   'Login',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 23),
+                                  style: TextStyle(color: Colors.white, fontSize: 23),
                                 ),
-                              ))),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -127,7 +144,7 @@ class _loginCustomState extends State<loginCustom> {
                   child: Column(
                     children: [
                       const Text(
-                        '¿No tienes cuenta? Registrate aquí',
+                        '¿No tienes cuenta? Regístrate aquí',
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -142,17 +159,18 @@ class _loginCustomState extends State<loginCustom> {
                           backgroundColor: Colors.orange,
                         ),
                         child: const SizedBox(
-                            height: 40,
-                            width: 125,
-                            child: Center(
-                                child: Padding(
+                          height: 40,
+                          width: 125,
+                          child: Center(
+                            child: Padding(
                               padding: EdgeInsets.all(5.0),
                               child: Text(
                                 'Register',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
+                                style: TextStyle(color: Colors.white, fontSize: 20),
                               ),
-                            ))),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

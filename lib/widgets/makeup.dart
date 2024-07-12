@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/details.dart';
 import 'package:yessi_pau/widgets/dropdown_button.dart';
 import 'package:yessi_pau/widgets/searchbar.dart';
+import 'package:yessi_pau/widgets/searchbarStart.dart';
 import 'package:yessi_pau/Views/home.dart';
 
 class Makeup extends StatefulWidget {
@@ -148,7 +149,7 @@ class _BrandsState extends State<Makeup> {
                     index = index;
                     String image ='i${index.toString()}';
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => details_Custom(image: image),
+                      builder: (context) => details_Custom(image: image, nombreProducto: 'Producto', descripcionProducto: 'Descripcion producto', precioProducto: 100.00),
                     ));
                   },
                 );

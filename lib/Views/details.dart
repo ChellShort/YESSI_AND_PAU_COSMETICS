@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class details_Custom extends StatefulWidget {
   final String image;
-  const details_Custom({super.key, required this.image});
+  final String nombreProducto;
+  final String descripcionProducto;
+  final double precioProducto;
+  const details_Custom({super.key, required this.image, required this.nombreProducto, required this.descripcionProducto, required this.precioProducto});
 
   @override
   State<details_Custom> createState() => _details_CustomState();
@@ -11,7 +14,8 @@ class details_Custom extends StatefulWidget {
 class _details_CustomState extends State<details_Custom> {
   @override
   Widget build(BuildContext context) {
-    String image = 'assets/${widget.image}.png';
+    String image = widget.image;
+    String precio = '${widget.precioProducto} MXN';
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -26,23 +30,23 @@ class _details_CustomState extends State<details_Custom> {
             ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
-            Image.asset(image),
+            Image.network(image),
             const SizedBox(height: 16.0),
-            const Text(
-              'Producto de belleza',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              widget.nombreProducto,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8.0),
-            const Text(
-              'Este es un prudcto de belleza que te hará lucir radiante y hermosa. ¡Cómpralo ya!',
-              style: TextStyle(fontSize: 16),
+            Text(
+              widget.descripcionProducto,
+              style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 16.0),
-            const Text(
-              '4000.00 MXN',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              precio,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16.0),
@@ -50,7 +54,7 @@ class _details_CustomState extends State<details_Custom> {
               onPressed: () {
                 // Acción al presionar el botón de comprar
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Producto añadido al carrito')),
+                  SnackBar(content: Text('Producto ${widget.nombreProducto} añadido al carrito')),
                 );
               },
               style: ElevatedButton.styleFrom(

@@ -1,0 +1,95 @@
+{
+    "products": [
+      {
+        "id": 1,
+        "name": "Luxury Lipstick",
+        "brand": "Glamorous Cosmetics",
+        "description": "A luxurious and hydrating lipstick that will leave your lips feeling soft and supple.",
+        "price": 25.00,
+        "imageUrl": "https://pyxis.nymag.com/v1/imgs/03f/b54/8a4d5f51e3a5ab3c98333686ada7bc78b7-thelip-21-shirafuji-cap.2x.w710.jpg",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 5
+      },
+      {
+        "id": 2,
+        "name": "Voluminous Mascara",
+        "brand": "Lash Envy",
+        "description": "A long-lasting mascara that will give you dramatic lashes that last all day.",
+        "price": 18.00,
+        "imageUrl": "https://m.media-amazon.com/images/I/61t-xB3XY4L.jpg",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 4
+      },
+      {
+        "id": 3,
+        "name": "Radiant Foundation",
+        "brand": "Flawless Skin",
+        "description": "A lightweight foundation that provides medium to full coverage and leaves your skin with a radiant glow.",
+        "price": 32.00,
+        "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyFnr8rxPTZwSPHUxm1z3VytvVIjb_2oh89w&s",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 5
+      },
+      {
+        "id": 4,
+        "name": "Shimmering Eyeshadow Palette",
+        "brand": "Eye Candy",
+        "description": "A palette of 12 shimmering eyeshadows in a variety of shades to create endless eye looks.",
+        "price": 28.00,
+        "imageUrl": "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1651759719-13313705-1254896609043617.jpg?crop=1xw:1xh;center,top&resize=980:*",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 3
+      },
+      {
+        "id": 5,
+        "name": "Nourishing Hair Mask",
+        "brand": "Healthy Hair Solutions",
+        "description": "A deeply nourishing hair mask that will leave your hair feeling soft, hydrated, and manageable.",
+        "price": 22.00,
+        "imageUrl": "https://areejaromatherapy.com/wp-content/uploads/2022/06/Hair-mask-1-scaled.jpg",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 5
+      },
+      {
+        "id": 6,
+        "name": "Gentle Facial Cleanser",
+        "brand": "Skin Essentials",
+        "description": "A gentle facial cleanser that removes dirt, oil, and makeup without stripping your skin of its natural moisture.",
+        "price": 16.00,
+        "imageUrl": "https://static.beautytocare.com/cdn-cgi/image/width=1600,height=1600,f=auto/media/catalog/product//c/e/cetaphil-gentle-skin-cleanser-dry-sensitive-skin-473ml_5.jpg",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 4
+      },
+      {
+        "id": 7,
+        "name": "Moisturizing Hand Cream",
+        "brand": "Soft Hands",
+        "description": "A rich and moisturizing hand cream that will keep your hands feeling soft and supple all day long.",
+        "price": 12.00,
+        "imageUrl": "https://circuloderma.com.mx/cdn/shop/products/Apivita_Crema_de_Manos_Jazmin.jpg?v=1618874807",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 5
+      },
+      {
+        "id": 8,
+        "name": "Invigorating Body Wash",
+        "brand": "Fresh Scents",
+        "description": "An invigorating body wash that will leave you feeling refreshed and energized.",
+        "price": 18.00,
+        "imageUrl": "https://amoramarket.com.mx/media/catalog/product/cache/666be7c0f9bce978b79d349b04acd66c/a/0/a0118094_1.jpg",
+        "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+        "rating": 5
+    },
+    {
+      "id": 9,
+      "name": "Invigorating Body Wash 2",
+      "brand": "Fresh Scents",
+      "description": "An invigorating body wash that will leave you feeling refreshed and energized.",
+      "price": 18.00,
+      "imageUrl": "https://amoramarket.com.mx/media/catalog/product/cache/666be7c0f9bce978b79d349b04acd66c/a/0/a0118094_1.jpg",
+      "websiteUrl": "https://www-example-com.cdn.ampproject.org/c/s/www.example.com",
+      "rating": 5
+  }
+    ]
+}
+  
