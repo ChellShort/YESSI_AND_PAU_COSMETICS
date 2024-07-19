@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/details.dart';
 import 'package:yessi_pau/widgets/dropdown_button.dart';
 import 'package:yessi_pau/widgets/searchbar.dart';
-import 'package:yessi_pau/widgets/searchbarStart.dart';
-import 'package:yessi_pau/Views/home.dart';
 
 class Makeup extends StatefulWidget {
   const Makeup({super.key});

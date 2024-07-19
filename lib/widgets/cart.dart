@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/counter.dart';
 
 class cartScreen extends StatelessWidget {
   // Lista de productos con sus detalles (nombre, marca, precio)

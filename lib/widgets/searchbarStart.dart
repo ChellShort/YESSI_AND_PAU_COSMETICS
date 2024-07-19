@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:yessi_pau/Views/details.dart';
-import 'package:yessi_pau/utils/producto_model.dart';
+import 'package:yessi_pau/database_helper.dart';
 
 class SearchBarCustomInicio extends StatefulWidget {
   const SearchBarCustomInicio({super.key});
@@ -12,14 +10,35 @@ class SearchBarCustomInicio extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBarCustomInicio> {
-  final TextEditingController _controller = TextEditingController();
-  List<Product> _filteredProducts = [];
+  final DatabaseHelper dbHelper = DatabaseHelper();
+  TextEditingController _controller = TextEditingController();
+  List<Map<String, dynamic>> _filteredProducts = [];
 
   void _searchProducts(String query) async {
-    final results = await fetchProductsByName(query);
-    setState(() {
-      _filteredProducts = results;
-    });
+    if (query.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'El campo de búsqueda está vacío. Por favor, introduce un término de búsqueda.'),
+        ),
+      );
+      return;
+    } else {
+      List<Map<String, dynamic>> results =
+          await dbHelper.searchProductsByName(query);
+      if (results.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se encontraron coincidencias'),
+          ),
+        );
+        return;
+      } else {
+        setState(() {
+          _filteredProducts = results;
+        });
+      }
+    }
   }
 
   @override
@@ -41,10 +60,23 @@ class _SearchBarState extends State<SearchBarCustomInicio> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
+                icon: GestureDetector(
+                    onTap: () {
+                      _searchProducts(_controller.text);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 135, 129, 189),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
               ),
-              onChanged: (value) {
-                _searchProducts(value);
-              },
             ),
           ),
         ),
@@ -60,17 +92,17 @@ class _SearchBarState extends State<SearchBarCustomInicio> {
                   onTap: () => {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => details_Custom(
-                          image: product.imageUrl,
-                          nombreProducto: product.name,
-                          descripcionProducto: product.description,
-                          precioProducto: product.price),
+                          image: product['imagen'],
+                          nombreProducto: product['nombre'],
+                          descripcionProducto:product['descripcion'],
+                          precioProducto: product['precio']),
                     ))
                   },
                   child: ListTile(
-                    leading: Image.network(product.imageUrl),
-                    title: Text(product.name),
-                    subtitle: Text(product.brand),
-                    trailing: Text('\$${product.price}'),
+                    leading: Image.network(product['imagen']),
+                    title: Text( product['nombre']),
+                    subtitle: Text(product['marca']),
+                    trailing: Text('\$${product['precio']}'),
                   ),
                 );
               },

@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:yessi_pau/widgets/searchbar.dart';
 import 'package:yessi_pau/widgets/skincare.dart';
 import 'package:yessi_pau/widgets/dropdown_button.dart';
-import 'package:yessi_pau/widgets/searchbarStart.dart';
 
 class BusquedaProductos extends StatefulWidget {
   final List<String> brandList;

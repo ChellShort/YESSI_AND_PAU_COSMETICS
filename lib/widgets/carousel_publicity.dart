@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:yessi_pau/utils/carousel_items.dart';
+import 'package:yessi_pau/widgets/inspect_publicity.dart';
 
 class CarouselPublicity extends StatefulWidget {
   const CarouselPublicity({super.key});
@@ -29,13 +30,21 @@ class _CarouselPublicityState extends State<CarouselPublicity> {
               items: imagenes.map((item) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration:
-                          const BoxDecoration(color: Colors.transparent),
-                      child: Image.asset(
-                        item,
-                        fit: BoxFit.fill,
+                    return GestureDetector(
+                      onTap: () => {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => InspectPublicity(
+                              image: item),
+                        ))
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration:
+                            const BoxDecoration(color: Colors.transparent),
+                        child: Image.asset(
+                          item,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     );
                   },

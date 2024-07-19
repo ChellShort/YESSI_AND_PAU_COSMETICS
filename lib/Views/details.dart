@@ -15,7 +15,7 @@ class _details_CustomState extends State<details_Custom> {
   @override
   Widget build(BuildContext context) {
     String image = widget.image;
-    String precio = '${widget.precioProducto} MXN';
+    String precio = '\$${widget.precioProducto} MXN';
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
