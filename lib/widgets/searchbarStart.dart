@@ -92,8 +92,10 @@ class _SearchBarState extends State<SearchBarCustomInicio> {
                   onTap: () => {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => details_Custom(
+                          idProducto: product['id_producto'],
                           image: product['imagen'],
                           nombreProducto: product['nombre'],
+                          nombreMarca: product['marca'],
                           descripcionProducto:product['descripcion'],
                           precioProducto: product['precio']),
                     ))

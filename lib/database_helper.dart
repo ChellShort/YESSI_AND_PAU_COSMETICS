@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'dart:io';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -58,7 +58,7 @@ class DatabaseHelper {
     ''');
 
     await db.execute('''
-      CREATE TABLE subcategorias (
+      CREATE TABLE subcategoria (
         id_subcategoria INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT
       )
@@ -84,7 +84,7 @@ class DatabaseHelper {
         id_subcategoria INTEGER,
         FOREIGN KEY (id_marca) REFERENCES marcas (id_marca) ON DELETE NO ACTION ON UPDATE NO ACTION,
         FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria) ON DELETE NO ACTION ON UPDATE NO ACTION,
-        FOREIGN KEY (id_subcategoria) REFERENCES subcategorias (id_subcategoria) ON DELETE NO ACTION ON UPDATE NO ACTION
+        FOREIGN KEY (id_subcategoria) REFERENCES subcategoria (id_subcategoria) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
     ''');
 
@@ -123,44 +123,44 @@ class DatabaseHelper {
     await db.insert(
         'categorias', {'nombre': 'Cuidado Corporal'}); // id_categoria = 4
 
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Cara'}); // id_subcategoria = 1 categoria = 1
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Ojos'}); // id_subcategoria = 2 categoria = 1
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Labios'}); // id_subcategoria = 3 categoria = 1
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Uñas'}); // id_subcategoria = 4 categoria = 1
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Accesorios'}); // id_subcategoria = 5 categoria = 1
-    await db.insert('subcategorias', {
+    await db.insert('subcategoria', {
       'nombre': 'Mascarillas y scrums'
     }); // id_subcategoria = 6 categoria = 2
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Hidratantes'}); // id_subcategoria = 7 categoria = 2
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Mist & Tonicos'}); // id_subcategoria = 8 categoria = 2
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Limpieza Facial'}); // id_subcategoria = 9 categoria = 2
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Cuidado de ojos'}); // id_subcategoria = 10 categoria = 2
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Electricos'}); // id_subcategoria = 11 categoria = 3
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Tratamientos'}); // id_subcategoria = 12 categoria = 3
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Tintes'}); // id_subcategoria = 13 categoria = 3
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Accesorios'}); // id_subcategoria = 14 categoria = 3
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Shampoos'}); // id_subcategoria = 15 categoria = 3
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Body Mist'}); // id_subcategoria = 16 categoria = 4
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Depilacion'}); // id_subcategoria = 17 categoria = 4
-    await db.insert('subcategorias',
+    await db.insert('subcategoria',
         {'nombre': 'Bronceadores'}); // id_subcategoria = 18 categoria = 4
-    await db.insert('subcategorias', {
+    await db.insert('subcategoria', {
       'nombre': 'Hidratante corporal'
     }); // id_subcategoria = 19 categoria = 4
 
@@ -439,7 +439,7 @@ class DatabaseHelper {
     JOIN 
       categorias c ON p.id_categoria = c.id_categoria
     JOIN 
-      subcategorias s ON p.id_subcategoria = s.id_subcategoria
+      subcategoria s ON p.id_subcategoria = s.id_subcategoria
     ORDER BY 
       p.estrellas DESC
     LIMIT 5
@@ -462,7 +462,7 @@ class DatabaseHelper {
     JOIN 
       categorias c ON p.id_categoria = c.id_categoria
     JOIN 
-      subcategorias s ON p.id_subcategoria = s.id_subcategoria
+      subcategoria s ON p.id_subcategoria = s.id_subcategoria
     WHERE 
       p.nombre LIKE ? 
     ORDER BY 
@@ -473,4 +473,93 @@ class DatabaseHelper {
   return await db.rawQuery(results, ['%$query%']);
 }
 
+Future<List<String>> getMarcas() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.query('marcas', columns: ['nombre']);
+    return List<String>.from(result.map((marca) => marca['nombre']));
+  }
+
+  Future<List<String>> getTiposProductos() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.query('categorias', columns: ['nombre']);
+    return List<String>.from(result.map((categorias) => categorias['nombre']));
+  }
+
+  Future<List<String>> getSubCategorias(String? subcategoria) async {
+    Database db = await database;
+    String idsubcategorias='';
+    if (subcategoria == 'maquillaje') {
+      idsubcategorias = 'id_subcategoria IN (1,2,3,4,5)';
+    } else if (subcategoria == 'skincare') {
+      idsubcategorias = 'id_subcategoria IN (6,7,8,9,10)';
+    } else if (subcategoria == 'cabello') {
+      idsubcategorias = 'id_subcategoria IN (11,12,13,14,15)';
+    } else if (subcategoria == 'cuidado corporal') {
+      idsubcategorias = 'id_subcategoria IN (16,17,18,19)';
+    } else {
+      print('No resultados');
+    }
+    List<Map<String, dynamic>> result = await db.query('subcategoria', columns: ['nombre'] , where: idsubcategorias);
+    return List<String>.from(result.map((subcategoriasCC) => subcategoriasCC['nombre']));
+  }
+
+  Future<double> getHighestPrice() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.rawQuery('SELECT MAX(precio) AS precio FROM productos');
+    return result.first['precio'];
+  }
+
+  Future<List<Map<String, dynamic>>> searchProducts(
+    {
+    String? name,
+    String? brand,
+    String? category,
+    String? subcategory,
+    required RangeValues priceRange}) async {
+  Database db = await database;
+  
+  String whereClause = 'p.precio BETWEEN ? AND ?';
+  List<dynamic> whereArgs = [priceRange.start, priceRange.end];
+  
+  if (brand != null) {
+    whereClause += ' AND m.nombre = ?';
+    whereArgs.add(brand);
+  }
+
+  if (category != null) {
+    whereClause += ' AND c.nombre = ?';
+    whereArgs.add(category);
+  }
+  if (name != null) {
+    whereClause += ' AND p.nombre LIKE ?';
+    whereArgs.add('%$name%');
+  }
+  if (subcategory != null) {
+    whereClause += ' AND s.nombre = ?';
+    whereArgs.add(subcategory);
+  }
+  
+  String query = '''
+    SELECT 
+      p.*, 
+      m.nombre AS marca, 
+      c.nombre AS categoria, 
+      s.nombre AS subcategoria
+    FROM 
+      productos p
+    JOIN 
+      marcas m ON p.id_marca = m.id_marca
+    JOIN 
+      categorias c ON p.id_categoria = c.id_categoria
+    JOIN 
+      subcategoria s ON p.id_subcategoria = s.id_subcategoria
+    WHERE 
+      $whereClause
+    ORDER BY 
+      p.estrellas DESC
+    LIMIT 10
+  ''';
+
+  return await db.rawQuery(query, whereArgs);
+}
 }

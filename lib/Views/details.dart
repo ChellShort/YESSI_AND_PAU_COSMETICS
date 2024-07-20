@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class details_Custom extends StatefulWidget {
   final String image;
+  final String nombreMarca;
   final String nombreProducto;
   final String descripcionProducto;
   final double precioProducto;
-  const details_Custom({super.key, required this.image, required this.nombreProducto, required this.descripcionProducto, required this.precioProducto});
+  final int idProducto;
+  const details_Custom({super.key, required this.idProducto, required this.nombreMarca,required this.image, required this.nombreProducto, required this.descripcionProducto, required this.precioProducto});
 
   @override
   State<details_Custom> createState() => _details_CustomState();
@@ -35,6 +37,10 @@ class _details_CustomState extends State<details_Custom> {
             Text(
               widget.nombreProducto,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Text(widget.nombreMarca,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8.0),

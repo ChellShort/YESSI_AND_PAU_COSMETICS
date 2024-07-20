@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/details.dart';
-import 'package:yessi_pau/widgets/dropdown_button.dart';
 import 'package:yessi_pau/widgets/searchbar.dart';
-import 'package:yessi_pau/widgets/searchbarStart.dart';
+import 'package:yessi_pau/database_helper.dart';
 
 class Brands extends StatefulWidget {
   const Brands({super.key});
@@ -12,21 +11,61 @@ class Brands extends StatefulWidget {
 }
 
 class _BrandsState extends State<Brands> {
-  int currentelements = 0;
   RangeValues _currentRangeValues = const RangeValues(0.00, 4000.00);
-  List<String> brandList = <String>[
-    'SELECCIONA UNA OPCIÓN',
-    'Mirabel',
-    'Loreal',
-    'Kumiko'
-  ];
-  List<String> productTypes = <String>[
-    'SELECCIONA UNA OPCIÓN',
-    'Maquillaje',
-    'Skincare',
-    'Cabello',
-    'Cuidado corporal'
-  ];
+  double RangeSliderMax = 4000.00;
+
+  List<String> brandList = [];
+  List<String> productTypes = <String>[];
+  List<Map<String, dynamic>> searchResults = [];
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBrands();
+    _loadProducts();
+    _loadHighestPrice();
+  }
+
+  Future<void> _loadBrands() async {
+    List<String> brands = await DatabaseHelper().getMarcas();
+    setState(() {
+      brandList = brands;
+    });
+  }
+
+  Future<void> _loadProducts() async {
+    List<String> products = await DatabaseHelper().getTiposProductos();
+    setState(() {
+      productTypes = products;
+    });
+  }
+
+  Future<void> _loadHighestPrice() async {
+    double highestPrice = await DatabaseHelper().getHighestPrice();
+    setState(() {
+      _currentRangeValues = RangeValues(0.00, highestPrice);
+      RangeSliderMax = highestPrice;
+    });
+  }
+
+  Future<void> _searchProducts() async {
+    String _selectedName = _searchController.text; // Obtén el texto del controlador
+    //print('Buscando productos $_selectedName $_selectedBrand $_selectedCategory $_currentRangeValues $_selectedName');
+    List<Map<String, dynamic>> results = await DatabaseHelper().searchProducts(
+      brand: _selectedBrand,
+      category: _selectedCategory,
+      priceRange: _currentRangeValues,
+      name: _selectedName, // Pasa el texto a la consulta
+    );
+    //print(results);
+    setState(() {
+      searchResults = results;
+    });
+  }
+
+  String? _selectedBrand;
+  String? _selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +88,59 @@ class _BrandsState extends State<Brands> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                const SizedBox(width: 400, child: SearchBarCustom()),
+                SizedBox(width: 400, child: SearchBarCustom(controller: _searchController)), // Usa el controlador
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text('MARCA:', style: TextStyle(color: Colors.white)),
                     SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: DropdownButtonExample(
-                          list: brandList,
-                        )),
+                      width: 300,
+                      height: 50,
+                      child: DropdownButton<String>(
+                        icon: const SizedBox.shrink(),
+                        padding: const EdgeInsets.only(left: 10.0),
+                        value: _selectedBrand,
+                        hint: const Text('Selecciona una opción'),
+                        items: brandList.map((brand) {
+                          return DropdownMenuItem(
+                            value: brand,
+                            child: Text(brand),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedBrand = value;
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text('TIPO DE PRODUCTO:',
-                        style: TextStyle(color: Colors.white)),
+                    const Text('TIPO DE PRODUCTO:', style: TextStyle(color: Colors.white)),
                     SizedBox(
-                        width: 220,
-                        height: 50,
-                        child: DropdownButtonExample(
-                          list: productTypes,
-                        )),
+                      width: 220,
+                      height: 50,
+                      child: DropdownButton<String>(
+                        icon: const SizedBox.shrink(),
+                        padding: const EdgeInsets.only(left: 10.0),
+                        value: _selectedCategory,
+                        hint: const Text('Selecciona una opción'),
+                        items: productTypes.map((type) {
+                          return DropdownMenuItem(
+                            value: type,
+                            child: Text(type),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 const Padding(
@@ -85,23 +153,22 @@ class _BrandsState extends State<Brands> {
                       children: [
                         SizedBox(
                           width: 85,
-                          child: Text(
-                              'De \$${_currentRangeValues.start.round()}.00',
-                              style: const TextStyle(color: Colors.white)),
+                          child: Text('De \$${_currentRangeValues.start.round()}.00', style: const TextStyle(color: Colors.white)),
                         ),
                         SizedBox(
-                            width: 200,
-                            child: RangeSlider(
-                                max: 4000.00,
-                                min: 0.00,
-                                values: _currentRangeValues,
-                                onChanged: (RangeValues values) {
-                                  setState(() {
-                                    _currentRangeValues = values;
-                                  });
-                                })),
-                        Text('A \$${_currentRangeValues.end.round()}.00',
-                            style: const TextStyle(color: Colors.white)),
+                          width: 200,
+                          child: RangeSlider(
+                            max: RangeSliderMax,
+                            min: 0.00,
+                            values: _currentRangeValues,
+                            onChanged: (RangeValues values) {
+                              setState(() {
+                                _currentRangeValues = values;
+                              });
+                            },
+                          ),
+                        ),
+                        Text('A \$${_currentRangeValues.end.round()}.00', style: const TextStyle(color: Colors.white)),
                       ],
                     ),
                   ],
@@ -110,19 +177,15 @@ class _BrandsState extends State<Brands> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                        onPressed: () {
-                          setState(() {
-                            currentelements = 6;
-                          });
-                        
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                          size: 30,
-                        ))
+                      onPressed: _searchProducts,
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -131,29 +194,35 @@ class _BrandsState extends State<Brands> {
           padding: const EdgeInsets.all(10.0),
           child: Container(
             child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(10.0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: searchResults.length,
               itemBuilder: (context, index) {
+                final product = searchResults[index];
                 return GestureDetector(
                   child: Container(
-                      color: Colors.white,
-                      child: Image.asset('assets/i${index.toString()}.png')),
+                    color: Colors.white,
+                    child: Image.network(product['imagen']),
+                  ),
                   onTap: () {
-                    index = index;
-                    String image ='i${index.toString()}';
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => details_Custom(image: image, nombreProducto: 'Producto', descripcionProducto: 'Descripcion producto', precioProducto: 100.00),
+                      builder: (context) => details_Custom(
+                        idProducto: product['id_producto'],
+                        image: product['imagen'],
+                        nombreProducto: product['nombre'],
+                        nombreMarca: product['marca'],
+                        descripcionProducto: product['descripcion'],
+                        precioProducto: product['precio'],
+                      ),
                     ));
                   },
                 );
               },
-              itemCount: currentelements,
             ),
           ),
         ),

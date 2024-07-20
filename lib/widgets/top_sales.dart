@@ -49,8 +49,10 @@ class _topProductsState extends State<TopProducts> {
                           onTap: () => {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => details_Custom(
+                                  idProducto: product['id_producto'],
                                   image: product['imagen'],
                                   nombreProducto: product['nombre'],
+                                  nombreMarca: product['marca'],
                                   descripcionProducto: product['descripcion'],
                                   precioProducto: product['precio']),
                             ))
