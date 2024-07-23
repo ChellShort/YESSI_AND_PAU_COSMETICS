@@ -1,9 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/home.dart';
 import 'package:yessi_pau/Views/register.dart';
+import 'package:yessi_pau/database_helper.dart';
 
-class loginCustom extends StatelessWidget {
+class loginCustom extends StatefulWidget {
   loginCustom({super.key});
+
+  @override
+  State<loginCustom> createState() => _loginCustomState();
+}
+
+class _loginCustomState extends State<loginCustom> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final dbHelper = DatabaseHelper();
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      String correo = _emailController.text;
+      String contrasena = _passwordController.text;
+
+      final cuenta = await dbHelper.getCuentaByEmailAndPassword(correo, contrasena);
+
+      if (cuenta != null) {
+        String username = cuenta['username'] ?? 'Usuario'; // Manejo de null
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(username: username),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Correo o contraseña incorrectos'),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,70 +58,85 @@ class loginCustom extends StatelessWidget {
                   'assets/logo.png',
                   width: 300,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
+                Form(
+                  key: _formKey,
                   child: Column(
                     children: [
-                      Text('CORREO'),
-                      TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Color.fromARGB(255, 229, 210, 232),
-                          prefixIcon: Icon(Icons.email, color: Colors.blue),
-                          border: OutlineInputBorder(),
-                          labelText: 'Ingrese su correo',
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            const Text('CORREO'),
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 229, 210, 232),
+                                prefixIcon: Icon(Icons.email, color: Colors.blue),
+                                border: OutlineInputBorder(),
+                                labelText: 'Ingrese su correo',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty || !value.contains('@')) {
+                                  return 'Por favor, ingrese un correo válido';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            const Text('CONTRASEÑA'),
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 229, 210, 232),
+                                prefixIcon: Icon(Icons.lock, color: Colors.blue),
+                                border: OutlineInputBorder(),
+                                labelText: 'Ingrese su contraseña',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Por favor, ingrese su contraseña';
+                                } else if (value.length < 8) {
+                                  return 'La contraseña debe tener al menos 8 caracteres';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: ElevatedButton(
+                          onPressed: _login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                          ),
+                          child: const SizedBox(
+                            height: 60,
+                            width: 250,
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(color: Colors.white, fontSize: 23),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, left: 15.0, right: 15.0),
-                  child: const Column(
-                    children: [
-                      Text('CONTRASEÑA'),
-                      TextField(
-                        obscureText: true, // This will obscure the text input
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Color.fromARGB(255, 229, 210, 232),
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.blue,
-                          ),
-                          border: OutlineInputBorder(),
-                          labelText: 'Ingrese su contraseña',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                    child: const SizedBox(
-                        height: 60,
-                        width: 250,
-                        child: Center(
-                            child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(color: Colors.white, fontSize: 23),
-                          ),
-                        ))),
                   ),
                 ),
                 Padding(
@@ -93,7 +144,7 @@ class loginCustom extends StatelessWidget {
                   child: Column(
                     children: [
                       const Text(
-                        '¿No tienes cuenta? Registrate aquí',
+                        '¿No tienes cuenta? Regístrate aquí',
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -108,17 +159,18 @@ class loginCustom extends StatelessWidget {
                           backgroundColor: Colors.orange,
                         ),
                         child: const SizedBox(
-                            height: 40,
-                            width: 125,
-                            child: Center(
-                                child: Padding(
+                          height: 40,
+                          width: 125,
+                          child: Center(
+                            child: Padding(
                               padding: EdgeInsets.all(5.0),
                               child: Text(
                                 'Register',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
+                                style: TextStyle(color: Colors.white, fontSize: 20),
                               ),
-                            ))),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

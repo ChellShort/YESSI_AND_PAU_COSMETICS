@@ -9,8 +9,8 @@ import 'package:yessi_pau/widgets/drawer.dart';
 import 'package:yessi_pau/widgets/start_custom.dart';
 
 class HomePage extends StatefulWidget {
-
-  const HomePage({super.key});
+  final String username;
+  const HomePage({super.key, required this.username});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -44,7 +44,8 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           index = i; // Se asigna el valor del elemento del drawer para redibujar el body
         });
-      }),
+      }, username: widget.username ?? 'username',
+      ),
       body: ListView(
         children: <Widget>[
           myBody[index],

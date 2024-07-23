@@ -4,10 +4,16 @@ import 'package:yessi_pau/widgets/cart.dart';
 import 'drawer_header.dart';
 import 'package:yessi_pau/utils/drawer_elements.dart';
 
-class DrawerCustom extends StatelessWidget {
+class DrawerCustom extends StatefulWidget {
   final void Function(int) cIndex; //Funcion que se encarga de cambiar el index del drawer
-  const DrawerCustom({super.key, required this.cIndex});
+  final String username;
+  const DrawerCustom({super.key, required this.cIndex, required this.username});
 
+  @override
+  State<DrawerCustom> createState() => _DrawerCustomState();
+}
+
+class _DrawerCustomState extends State<DrawerCustom> {
   @override
   Widget build(BuildContext context) {
 
@@ -21,7 +27,7 @@ class DrawerCustom extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text('YESSI & PAU', style: TextStyle(fontSize: 30),),
           )),
-          const DrawerHeaderCustom(),
+          DrawerHeaderCustom(username: widget.username),
           ListView(
             //Esto hace que no de el error ese rojo que tanto odio
             physics: const NeverScrollableScrollPhysics(),
@@ -40,7 +46,7 @@ class DrawerCustom extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     subtitle: Text(itemsList[i].subtitle),
                     onTap: () { //Al dar tap en n elemento se cambio al mismo tiempo el valor de la variable index en el landing_page
-                      cIndex(i);
+                      widget.cIndex(i);
                       Navigator.pop(context);
                     },
                   );

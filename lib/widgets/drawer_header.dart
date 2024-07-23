@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yessi_pau/Views/pedido_cuenta.dart';
 
 class DrawerHeaderCustom extends StatelessWidget {
-  const DrawerHeaderCustom({super.key});
+  final String username;
+  const DrawerHeaderCustom({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,6 @@ class DrawerHeaderCustom extends StatelessWidget {
                   Icons.person,
                   size: 40,
                 ),
-                
               ),
               onTap: () => {
                 Navigator.push(
@@ -29,11 +29,14 @@ class DrawerHeaderCustom extends StatelessWidget {
                     builder: (context) => pedidoCuenta(),
                   ),
                 )
-              
               },
             ),
             const SizedBox(width: 20),
-            const Text('Usuario'),
+            Text(
+              username,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
           ],
         ));
   }
